@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.AppNamespace}}
+  name: {{ .Values.VotingAppName }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.VotingAppName }}
+  template:
+    metadata:
+      namespace: {{ .Values.AppNamespace}}
+      labels:
+        app: {{ .Values.VotingAppName }}
+    spec:
+      containers:
+        - name: {{ .Values.VotingAppName }}
+          image: dockersamples/examplevotingapp_vote
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 80

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  namespace: {{ .Values.AppNamespace}}
+spec:
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      namespace: {{ .Values.AppNamespace}}
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+      volumes:
+        - name: db
+          emptyDir: {}
