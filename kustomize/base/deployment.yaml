@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kustomize-test-app
+spec:
+  selector:
+    matchLabels:
+      app: kustomize-test-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kustomize-test-app
+    spec:
+      containers:
+      - name: kustomize-test-app
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
